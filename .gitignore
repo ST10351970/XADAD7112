@@ -1,0 +1,49 @@
+﻿## .NET / Visual Studio
+
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# Visual Studio user-specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+
+# Build artefacts
+*.pdb
+*.cache
+*.ilk
+*.tmp
+*.vspscc
+*.vssscc
+
+# Test results
+[Tt]est[Rr]esult*/
+*.coverage
+
+# Publish output
+[Pp]ublish/
+*.pubxml
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*~
+*.bak
+*.swp
+*.orig

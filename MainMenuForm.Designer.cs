@@ -144,7 +144,6 @@
             // btnLocalEvents
             // 
             this.btnLocalEvents.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLocalEvents.Enabled = false;
             this.btnLocalEvents.Location = new System.Drawing.Point(3, 147);
             this.btnLocalEvents.Margin = new System.Windows.Forms.Padding(3, 12, 20, 12);
             this.btnLocalEvents.Name = "btnLocalEvents";
@@ -160,8 +159,8 @@
             this.lblLocalEventsInfo.Name = "lblLocalEventsInfo";
             this.lblLocalEventsInfo.Size = new System.Drawing.Size(462, 135);
             this.lblLocalEventsInfo.TabIndex = 3;
-            this.lblLocalEventsInfo.Text = "Not yet available. This service will list municipal events and public announcement" +
-    "s in a future release.";
+            this.lblLocalEventsInfo.Text = "Browse upcoming community events and the latest service notices.";
+            this.lblLocalEventsInfo.UseMnemonic = false;
             this.lblLocalEventsInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnServiceStatus

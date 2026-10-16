@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using MunicipalServicesApp.Models;
 using MunicipalServicesApp.Services;
 using MunicipalServicesApp.UI;
 
@@ -14,6 +15,7 @@ namespace MunicipalServicesApp
             ApplyTheme();
             WireUpEvents();
             RefreshIssueCount();
+            RefreshEventsSummary();
         }
 
         private void ApplyTheme()
@@ -30,14 +32,16 @@ namespace MunicipalServicesApp
             lblInstruction.ForeColor = Theme.TextPrimary;
 
             Theme.StyleActionButton(btnReportIssues);
-            Theme.StyleDisabledButton(btnLocalEvents);
+            Theme.StyleActionButton(btnLocalEvents);
+            btnLocalEvents.Enabled = true;
             Theme.StyleDisabledButton(btnServiceStatus);
             Theme.StyleSecondaryButton(btnExit);
 
             lblReportIssuesInfo.Font = Theme.BodyFont;
             lblReportIssuesInfo.ForeColor = Theme.TextPrimary;
             lblLocalEventsInfo.Font = Theme.BodyFont;
-            lblLocalEventsInfo.ForeColor = Theme.TextMuted;
+            lblLocalEventsInfo.ForeColor = Theme.TextPrimary;
+            lblLocalEventsInfo.UseMnemonic = false;
             lblServiceStatusInfo.Font = Theme.BodyFont;
             lblServiceStatusInfo.ForeColor = Theme.TextMuted;
 
@@ -48,6 +52,7 @@ namespace MunicipalServicesApp
         private void WireUpEvents()
         {
             btnReportIssues.Click += BtnReportIssues_Click;
+            btnLocalEvents.Click += BtnLocalEvents_Click;
             btnExit.Click += BtnExit_Click;
             Activated += MainMenuForm_Activated;
         }
@@ -59,6 +64,23 @@ namespace MunicipalServicesApp
                 Hide();
                 reportForm.ShowDialog(this);
                 Show();
+            }
+        }
+
+        private void BtnLocalEvents_Click(object? sender, EventArgs e)
+        {
+            using (LocalEventsForm eventsForm = new LocalEventsForm())
+            {
+                Hide();
+                try
+                {
+                    eventsForm.ShowDialog(this);
+                }
+                finally
+                {
+                    // Always bring the menu back, even if something goes wrong on the events page.
+                    Show();
+                }
             }
         }
 
@@ -79,6 +101,28 @@ namespace MunicipalServicesApp
         private void MainMenuForm_Activated(object sender, EventArgs e)
         {
             RefreshIssueCount();
+            RefreshEventsSummary();
+        }
+
+        // Describes the Local Events service and, if there is one, names the most
+        // urgent notice (the front of EventManager's announcement priority queue).
+        private void RefreshEventsSummary()
+        {
+            EventManager events = EventManager.Shared;
+
+            string summary = string.Format(
+                "Browse {0} upcoming community events and the latest service notices. " +
+                "Search by keyword, category or date, and get suggestions based on what you look for.",
+                events.EventCount);
+
+            Announcement? urgent = events.GetMostUrgentAnnouncement(DateTime.Today);
+            if (urgent != null && urgent.Priority == AnnouncementPriority.Critical)
+            {
+                summary += Environment.NewLine + Environment.NewLine +
+                           "Urgent: " + urgent.Title + " (" + urgent.Area + ")";
+            }
+
+            lblLocalEventsInfo.Text = summary;
         }
 
         private void RefreshIssueCount()

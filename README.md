@@ -381,6 +381,6 @@ shown in bold on the calendar have at least one event.
 |---|---|
 | Name | Lesego Letsapa |
 | Student number | ST10351970 |
-| Module | Advanced Application Development (XADAD7112) |
+| Module | Advanced Application Development (AAPD7112w) |
 | Assessment | Part 2, Portfolio of Evidence |
 | Repository | https://github.com/ST10351970/XADAD7112 |

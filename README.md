@@ -121,16 +121,24 @@ slate = Closed. A request shown as **(blocked)** in red is waiting for another r
 ## 5. Author
 
 A **binary tree** is the base class for all 3 search trees in the app. It holds the height calculation and the traversals (in-order, reverse in-order, pre-order, post-order and level-order). An in-order traversal lists requests in sorted order without a separate sort, and a reverse in-order traversal produces the “Newest first” view”.
+
 A **binary search tree (BST)** indexes requests by suburb name. The “Suburb starts with” filter is a range query on this tree, so typing “S” only visits the branch that can match (Silverton, Sunnyside). An unbalanced BST is also kept by reference number, purely for comparison with AVL tree.
+
 An **AVL tree** is the main index by reference number, so tracking a request take O(log n) comparisons. It is needed because reference numbers are issued in sequence, which turns a plain BST into a chain. Tracking the newest request takes 5 comparisons in the AVL tree and 31 in the unbalanced BST. The tree also issues new reference numbers by finding the highest number already used this year.
+
 A **red-block tree** indexes requests by submission date and time. It produces the “Newest first” and “Oldest first” lists, and the “Submitted from/to” filter is a range query that only visits requests inside the chosen dates. It’s re-colouring and rotations keep it balanced as requests arrive.
+
 A **general (n-ary) tree** models the municipality as departments, then categories, then individual requests and drives the department browser. A pre-order traversal collects every request under a selected department. A post-order traversal adds up the open and total counts on each branch.
+
 A **min-heap** holds the requests waiting for a crew, with the most urgent at the top: Critical before Low, then oldest first. It drives the Urgent queue tab, the “Dispatch next job” button and the “Most urgent” line on the main menu. Dijkstra’s and Prim’s algorithms also use a heap to pick the next closet suburb or cheapest road.
+
 The use of **graphs** covers 2 models. A directed graph records which requests must wait for others, for example a road repair waiting on the burst pipe beneath it. This produces the “blocked” status and stops blocked work from being dispatched. A weighted, undirected graph holds 14 Tshwane suburbs joined by 24 roads, with distances in km and is used for crew routes.
+
 The use of **graph traversal** is split between 2 algorithms. Breath-first search fills the Related tab, listing linked requests level by level. Depth-first search does 3 jobs:
 1.	Working out the order in which linked requests must be resolved.
 2.	Refusing any new dependency that would create a cycle.
 3.	Turning the route tree into a visiting order for the crew.
+
 A **minimum spanning tree (MST)** plans the crew route. Dijkstra’s algorithm finds the shortest road distances between the depot and each suburb with open requests. Prim’s algorithm then links those suburbs with the shortest total network which is drawn in green on the map. Kruskal’s algorithm, with a disjoint set, runs as a self-check and must find the same 70.7km tree for the full road network.
 
 ---

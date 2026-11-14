@@ -118,7 +118,7 @@ slate = Closed. A request shown as **(blocked)** in red is waiting for another r
 
 ---
 
-## 5. Author
+## 5. Report
 
 A **binary tree** is the base class for all 3 search trees in the app. It holds the height calculation and the traversals (in-order, reverse in-order, pre-order, post-order and level-order). An in-order traversal lists requests in sorted order without a separate sort, and a reverse in-order traversal produces the “Newest first” view”.
 
